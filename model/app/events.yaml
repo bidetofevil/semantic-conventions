@@ -13,10 +13,9 @@ groups:
       to provide a basic schema that can be used for all crashes, but it existence
       does not preclude other, more narrow events to be defined with more extensive
       schemas to handle specific crash scenarios on specific platforms.
-      Crash events can be produced asynchronously by another SDK instance, so it
-      can contain attributes that are normally provided by the SDK Resource. The
-      appearance of any of those attributes (e.g. app.build_id) means they should
-      be used instead of the ones provided in the Resource.
+      Crash events can be produced asynchronously, so it can contain attributes
+      that are normally provided by the SDK Resource. See the definition of
+      `app.async` for more details about how to use them as it pertains to crashes.
       How the instrumentation will determine whether an instance of a crash has
       already been reported and how the necessary data will be retrieved is left up
       to the instrumentation. Providing enough data to dedupe is NOT REQUIRED.
@@ -25,12 +24,32 @@ groups:
       usable for debugging without additional data not specified in the event
       (e.g. stacktrace already deobfuscated). If that is not the case, additional
       information like `app.build_id` SHOULD be provided to make the data useful for
-      debugging, either derived from the Resource or as attributes in this event if
-      they differ from what is defined there (in the asynchronous case).
+      debugging, either as an attribute in this event or derived from the Resource if
+      `app.sync` is not true.
+      It SHOULD contain information about the source that provided the crash data.
+      While it MAY contain details about the crash in a single payload that can be
+      used for contextualizing and grouping them, it is NOT REQUIRED that the
+      semantics and schema of that payload can be used without additional data
+      that is not present in this event (e.g. mapping files to deobfuscate
+      stacktraces), as their inclusion is not always feasible (e.g. not available
+      at the time of recording). But if `app.crash.data` is provided, the format
+      in which it was encoded MUST be provided in `app.crash.data.cpntent_type`.
     attributes:
-      - ref: app.build_id
+      - ref: app.async
         requirement_level: opt_in
+      - ref: app.build_id
+        requirement_level:
+          conditionally_required: Recommended if `app.async` is set, opt_in otherwise.
       - ref: app.crash.id
+        requirement_level: opt_in
+      - ref: app.crash.data
+        requirement_level: recommended
+      - ref: app.crash.data.content_type
+        requirement_level:
+          conditionally_required: Required if `app.crash.data` is set, opt_in otherwise.
+      - ref: app.crash.source
+        requirement_level: opt_in
+      - ref: app.crash.source.version
         requirement_level: opt_in
       - ref: exception.type
         requirement_level: opt_in
@@ -39,13 +58,17 @@ groups:
       - ref: exception.stacktrace
         requirement_level: opt_in
       - ref: os.name
-        requirement_level: opt_in
+        requirement_level:
+          conditionally_required: Recommended if `app.async` is set, opt_in otherwise.
       - ref: os.version
-        requirement_level: opt_in
+        requirement_level:
+          conditionally_required: Recommended if `app.async` is set, opt_in otherwise.
       - ref: service.name
-        requirement_level: opt_in
+        requirement_level:
+          conditionally_required: Recommended if `app.async` is set, opt_in otherwise.
       - ref: service.version
-        requirement_level: opt_in
+        requirement_level:
+          conditionally_required: Recommended if `app.async` is set, opt_in otherwise.
       - ref: session.id
         requirement_level: recommended
   - id: event.app.screen.click
