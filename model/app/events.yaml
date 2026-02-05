@@ -10,6 +10,15 @@ groups:
       of a user-facing application. It can be recorded synchronously with the crashing
       of the app just prior to the termination of the application process or
       asynchronously some time after.
+      It MAY contain details about the crash that can be helpful for contextualizing
+      and grouping them, data captured by the instrumentation synchronously or
+      retrieved via an external source like a crash capturing library. This data
+      MAY be in a format that is not understable by the instrumentation, or require
+      additional information in order to be used (e.g. mapping files to deobfuscate
+      stacktraces). Additional information about how this data can be parsed and used
+      SHOULD be available in the event, but it is NOT REQUIRED that having the data
+      in the event alone will allow you to use the accompanying data (e.g. including
+      deobfuscation information in the event is not feasible).
       How the instrumentation will determine whether an instance of a crash has
       already been reported and how the necessary data will be retrieved is
       left up to the instrumentation.
@@ -23,6 +32,14 @@ groups:
     attributes:
       - ref: app.crash.id
         requirement_level: required
+      - ref: app.crash.data
+        requirement_level: recommended
+      - ref: app.crash.data.content_type
+        requirement_level: recommended
+      - ref: app.crash.source
+        requirement_level: opt_in
+      - ref: app.crash.source.version
+        requirement_level: opt_in
       - ref: os.name
         requirement_level: recommended
       - ref: os.version

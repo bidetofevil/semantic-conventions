@@ -12,24 +12,36 @@ Describes attributes related to client-side applications (e.g. web apps or mobil
 | Key | Stability | Value Type | Description | Example Values |
 | --- | --- | --- | --- | --- |
 | <a id="app-build-id" href="#app-build-id">`app.build_id`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | Unique identifier for a particular build or compilation of the application. | `6cff0a7e-cefc-4668-96f5-1273d8b334d0`; `9f2b833506aa6973a92fde9733e6271f`; `my-app-1.0.0-code-123` |
-| <a id="app-crash-id" href="#app-crash-id">`app.crash.id`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | A unique identifier representing an instance of an end-user facing application being unexpectedly terminated. [1] | `083d3d2d-9a0e-47f8-be3d-bc3c5538ba38` |
-| <a id="app-installation-id" href="#app-installation-id">`app.installation.id`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | A unique identifier representing the installation of an application on a specific device [2] | `2ab2916d-a51f-4ac8-80ee-45ac31a28092` |
-| <a id="app-jank-frame-count" href="#app-jank-frame-count">`app.jank.frame_count`</a> | ![Development](https://img.shields.io/badge/-development-blue) | int | A number of frame renders that experienced jank. [3] | `9`; `42` |
+| <a id="app-crash-data" href="#app-crash-data">`app.crash.data`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | A data blob that contains additional information about an unexpected termination of a end-user facing application. [1] | `{ "exceptions": [ {"type": "a.b.c", "message": "An error has occurred", "stacktrace", "a.b.c: An error has occurred at a.b.d.e.p(unknown source) at a.b.d.e.g(unknown source) at a.b.d.e.z(unknown source) at a.b.d.y.r(unknown source)" } ], "threads": [ { "id": 74, "state": "RUNNABLE", "name": "main", "callstack": ["x.y.z", "x.y.aa"] }, { "id": 1881, "state": "RUNNABLE", "name": "bg-thread", "callstack": ["x.y.z", "x.y.bbc"] } ], "proguard_file_id": "03b00186-1558-4aa4-a619-2df8d8d11b6a" }` |
+| <a id="app-crash-data-content-type" href="#app-crash-data-content-type">`app.crash.data.content_type`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | Data format for the value of 'app.crash.data' as defined by RFC 2046 [2] | `application/json`; `application/protobuf` |
+| <a id="app-crash-id" href="#app-crash-id">`app.crash.id`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | A unique identifier representing an instance of an end-user facing application being unexpectedly terminated. [3] | `083d3d2d-9a0e-47f8-be3d-bc3c5538ba38` |
+| <a id="app-crash-source" href="#app-crash-source">`app.crash.source`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | The source from which the instrumentation obtained the data related to an unexpected termination of an end-user facing application. [4] | `jvm`; `ios_kscrash`; `my-cool-native-crash-catcher` |
+| <a id="app-crash-source-version" href="#app-crash-source-version">`app.crash.source.version`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | The version corresponding to the source of a crash as defined by 'app.crash.source'. [5] | `12` |
+| <a id="app-installation-id" href="#app-installation-id">`app.installation.id`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | A unique identifier representing the installation of an application on a specific device [6] | `2ab2916d-a51f-4ac8-80ee-45ac31a28092` |
+| <a id="app-jank-frame-count" href="#app-jank-frame-count">`app.jank.frame_count`</a> | ![Development](https://img.shields.io/badge/-development-blue) | int | A number of frame renders that experienced jank. [7] | `9`; `42` |
 | <a id="app-jank-period" href="#app-jank-period">`app.jank.period`</a> | ![Development](https://img.shields.io/badge/-development-blue) | double | The time period, in seconds, for which this jank is being reported. | `1.0`; `5.0`; `10.24` |
 | <a id="app-jank-threshold" href="#app-jank-threshold">`app.jank.threshold`</a> | ![Development](https://img.shields.io/badge/-development-blue) | double | The minimum rendering threshold for this jank, in seconds. | `0.016`; `0.7`; `1.024` |
 | <a id="app-screen-coordinate-x" href="#app-screen-coordinate-x">`app.screen.coordinate.x`</a> | ![Development](https://img.shields.io/badge/-development-blue) | int | The x (horizontal) coordinate of a screen coordinate, in screen pixels. | `0`; `131` |
 | <a id="app-screen-coordinate-y" href="#app-screen-coordinate-y">`app.screen.coordinate.y`</a> | ![Development](https://img.shields.io/badge/-development-blue) | int | The y (vertical) component of a screen coordinate, in screen pixels. | `12`; `99` |
-| <a id="app-screen-id" href="#app-screen-id">`app.screen.id`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | An identifier that uniquely differentiates this screen from other screens in the same application. [4] | `f9bc787d-ff05-48ad-90e1-fca1d46130b3`; `com.example.app.MainActivity`; `com.example.shop.ProductDetailFragment`; `MyApp.ProfileView`; `MyApp.ProfileViewController` |
-| <a id="app-screen-name" href="#app-screen-name">`app.screen.name`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | The name of an application screen. [5] | `MainActivity`; `ProductDetailFragment`; `ProfileView`; `ProfileViewController` |
-| <a id="app-widget-id" href="#app-widget-id">`app.widget.id`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | An identifier that uniquely differentiates this widget from other widgets in the same application. [6] | `f9bc787d-ff05-48ad-90e1-fca1d46130b3`; `submit_order_1829` |
-| <a id="app-widget-name" href="#app-widget-name">`app.widget.name`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | The name of an application widget. [7] | `submit`; `attack`; `Clear Cart` |
+| <a id="app-screen-id" href="#app-screen-id">`app.screen.id`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | An identifier that uniquely differentiates this screen from other screens in the same application. [8] | `f9bc787d-ff05-48ad-90e1-fca1d46130b3`; `com.example.app.MainActivity`; `com.example.shop.ProductDetailFragment`; `MyApp.ProfileView`; `MyApp.ProfileViewController` |
+| <a id="app-screen-name" href="#app-screen-name">`app.screen.name`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | The name of an application screen. [9] | `MainActivity`; `ProductDetailFragment`; `ProfileView`; `ProfileViewController` |
+| <a id="app-widget-id" href="#app-widget-id">`app.widget.id`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | An identifier that uniquely differentiates this widget from other widgets in the same application. [10] | `f9bc787d-ff05-48ad-90e1-fca1d46130b3`; `submit_order_1829` |
+| <a id="app-widget-name" href="#app-widget-name">`app.widget.name`</a> | ![Development](https://img.shields.io/badge/-development-blue) | string | The name of an application widget. [11] | `submit`; `attack`; `Clear Cart` |
 
-**[1] `app.crash.id`:** Its value SHOULD be meaningful and COULD be used as a reference for other telemetry and metadata recorded by
+**[1] `app.crash.data`:** Its value MUST match what is defined in 'app.crash.data.content_type'.
+
+**[2] `app.crash.data.content_type`:** This allows 'app.crash.data' to be programmatically interpreted, though more information will be needed to understand the semantics of the underlying data.
+
+**[3] `app.crash.id`:** Its value SHOULD be meaningful and COULD be used as a reference for other telemetry and metadata recorded by
 the same instrumentation (e.g. it is an ID generated by an external source that captured the crash).
 It COULD come from a source external to the instrumentation such that it can be used to look up additional
 data from other sources.
 
-**[2] `app.installation.id`:** Its value SHOULD persist across launches of the same application installation, including through application upgrades.
+**[4] `app.crash.source`:** Its value COULD represent a platform-specific API, well-known technique, an external library, or anything to pin the source of the data to enable its interpretation.
+
+**[5] `app.crash.source.version`:** Its value COULD be used to determine how the additional data associated with this crash can be interpreted.
+
+**[6] `app.installation.id`:** Its value SHOULD persist across launches of the same application installation, including through application upgrades.
 It SHOULD change if the application is uninstalled or if all applications of the vendor are uninstalled.
 Additionally, users might be able to reset this value (e.g. by clearing application data).
 If an app is installed multiple times on the same device (e.g. in different accounts on Android), each `app.installation.id` SHOULD have a different value.
@@ -47,12 +59,12 @@ For Android, examples of `app.installation.id` implementations include:
 
 More information about Android identifier best practices can be found in the [Android user data IDs guide](https://developer.android.com/training/articles/user-data-ids).
 
-**[3] `app.jank.frame_count`:** Depending on platform limitations, the value provided MAY be approximation.
+**[7] `app.jank.frame_count`:** Depending on platform limitations, the value provided MAY be approximation.
 
-**[4] `app.screen.id`:** A screen represents only the part of the device display drawn by the app. It typically contains multiple widgets or UI components and is larger in scope than individual widgets. Multiple screens can coexist on the same display simultaneously (e.g., split view on tablets).
+**[8] `app.screen.id`:** A screen represents only the part of the device display drawn by the app. It typically contains multiple widgets or UI components and is larger in scope than individual widgets. Multiple screens can coexist on the same display simultaneously (e.g., split view on tablets).
 
-**[5] `app.screen.name`:** A screen represents only the part of the device display drawn by the app. It typically contains multiple widgets or UI components and is larger in scope than individual widgets. Multiple screens can coexist on the same display simultaneously (e.g., split view on tablets).
+**[9] `app.screen.name`:** A screen represents only the part of the device display drawn by the app. It typically contains multiple widgets or UI components and is larger in scope than individual widgets. Multiple screens can coexist on the same display simultaneously (e.g., split view on tablets).
 
-**[6] `app.widget.id`:** A widget is an application component, typically an on-screen visual GUI element.
+**[10] `app.widget.id`:** A widget is an application component, typically an on-screen visual GUI element.
 
-**[7] `app.widget.name`:** A widget is an application component, typically an on-screen visual GUI element.
+**[11] `app.widget.name`:** A widget is an application component, typically an on-screen visual GUI element.
