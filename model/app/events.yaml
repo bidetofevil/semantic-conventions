@@ -26,6 +26,14 @@ groups:
       information like `app.build_id` SHOULD be provided to make the data useful for
       debugging, either as an attribute in this event or derived from the Resource if
       `app.sync` is not true.
+      It SHOULD contain information about the source that provided the crash data.
+      While it MAY contain details about the crash in a single payload that can be
+      used for contextualizing and grouping them, it is NOT REQUIRED that the
+      semantics and schema of that payload can be used without additional data
+      that is not present in this event (e.g. mapping files to deobfuscate
+      stacktraces), as their inclusion is not always feasible (e.g. not available
+      at the time of recording). But if `app.crash.data` is provided, the format
+      in which it was encoded MUST be provided in `app.crash.data.cpntent_type`.
     attributes:
       - ref: app.async
         requirement_level: opt_in
@@ -33,6 +41,15 @@ groups:
         requirement_level:
           conditionally_required: Recommended if `app.async` is set, opt_in otherwise.
       - ref: app.crash.id
+        requirement_level: opt_in
+      - ref: app.crash.data
+        requirement_level: recommended
+      - ref: app.crash.data.content_type
+        requirement_level:
+          conditionally_required: Required if `app.crash.data` is set, opt_in otherwise.
+      - ref: app.crash.source
+        requirement_level: opt_in
+      - ref: app.crash.source.version
         requirement_level: opt_in
       - ref: exception.type
         requirement_level: opt_in
