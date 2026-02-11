@@ -4,21 +4,23 @@ groups:
     type: event
     name: app.crash
     brief: >
-      This event represents an unexpected termination of a user-facing application.
+      This event represents a termination of a user-facing application due to an unrecoverable error that is not expected by the user.
     note: |
-      This event identifies an app crash, defined as an unexpected termination
-      of a user-facing application. It can be recorded synchronously with the crashing
-      of the app just prior to the termination of the application process or
-      asynchronously some time after.
-      It MAY contain details about the crash that can be helpful for contextualizing
-      and grouping them, data captured by the instrumentation synchronously or
-      retrieved via an external source like a crash capturing library. This data
-      MAY be in a format that is not understable by the instrumentation, or require
-      additional information in order to be used (e.g. mapping files to deobfuscate
-      stacktraces). Additional information about how this data can be parsed and used
-      SHOULD be available in the event, but it is NOT REQUIRED that having the data
-      in the event alone will allow you to use the accompanying data (e.g. including
-      deobfuscation information in the event is not feasible).
+      This event identifies an app crash, defined as a termination of a user-facing
+      application due to an unrecoverable error that is not expected by the user. The
+      source that identified and provided details about the crash can be the
+      instrumentation itself, detecting and recording it synchronously at runtime just
+      prior the termination of the app. Alternatively, sources external to the app
+      could provide the instrumentation details about the crash some time after the
+      app has terminated, allowing it to record the even asynchronously, perhaps
+      hours and days after it occurred.
+      It SHOULD contain information about the source that provided the crash data.
+      While it MAY contain details about the crash in a single payload that can be
+      used for contextualizing and grouping them, it is NOT REQUIRED that the
+      semantics and schema of that payload can be used without additional data
+      that is not present in this event (e.g. mapping files to deobfuscate
+      stacktraces), as that is not always feasible. However, if a crash details
+      payload is included, the format in which it was encoded MUST be provided.
       How the instrumentation will determine whether an instance of a crash has
       already been reported and how the necessary data will be retrieved is
       left up to the instrumentation.
