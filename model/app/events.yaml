@@ -1,4 +1,57 @@
 groups:
+  - id: event.app.crash
+    stability: development
+    type: event
+    name: app.crash
+    brief: >
+      This event represents a termination of a user-facing application due to an unrecoverable error that is not expected by the user.
+    note: |
+      This event identifies an app crash, defined as a termination of a user-facing
+      application due to an unrecoverable error that is not expected by the user. The
+      source that identified and provided details about the crash can be the
+      instrumentation itself, detecting and recording it synchronously at runtime just
+      prior the termination of the app. Alternatively, sources external to the app
+      could provide the instrumentation details about the crash some time after the
+      app has terminated, allowing it to record the even asynchronously, perhaps
+      hours and days after it occurred.
+      It SHOULD contain information about the source that provided the crash data.
+      While it MAY contain details about the crash in a single payload that can be
+      used for contextualizing and grouping them, it is NOT REQUIRED that the
+      semantics and schema of that payload can be used without additional data
+      that is not present in this event (e.g. mapping files to deobfuscate
+      stacktraces), as that is not always feasible. However, if a crash details
+      payload is included, the format in which it was encoded MUST be provided.
+      How the instrumentation will determine whether an instance of a crash has
+      already been reported and how the necessary data will be retrieved is
+      left up to the instrumentation.
+      Attributes defined in this event denote the state of the app when the crash
+      happened, not when the event was created. Therefore, what are normally obtained
+      from Resource attributes like OS and service versions that are also specified in
+      the event MUST be retreived from the event itself. In other words, attributes in
+      the event override their equivalents in the Resource, and any related attributes
+      not specified MUST be assumed to be on the Resource (e.g. if service.version is
+      specified but service.name is not, it is assume it will be in the Resource).
+    attributes:
+      - ref: app.crash.id
+        requirement_level: required
+      - ref: app.crash.data
+        requirement_level: recommended
+      - ref: app.crash.data.content_type
+        requirement_level: recommended
+      - ref: app.crash.source
+        requirement_level: opt_in
+      - ref: app.crash.source.version
+        requirement_level: opt_in
+      - ref: os.name
+        requirement_level: recommended
+      - ref: os.version
+        requirement_level: recommended
+      - ref: service.name
+        requirement_level: recommended
+      - ref: service.version
+        requirement_level: recommended
+      - ref: session.id
+        requirement_level: recommended
   - id: event.app.screen.click
     stability: development
     type: event
